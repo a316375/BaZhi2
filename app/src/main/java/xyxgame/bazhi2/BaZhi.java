@@ -2,26 +2,38 @@ package xyxgame.bazhi2;
 
 import android.os.Bundle;
 
+import com.android.billingclient.api.BillingClient;
+import com.android.billingclient.api.BillingClientStateListener;
+import com.android.billingclient.api.BillingFlowParams;
+import com.android.billingclient.api.BillingResult;
+import com.android.billingclient.api.Purchase;
+import com.android.billingclient.api.PurchasesUpdatedListener;
+import com.android.billingclient.api.SkuDetails;
+import com.android.billingclient.api.SkuDetailsParams;
+import com.android.billingclient.api.SkuDetailsResponseListener;
 import com.wx.wheelview.adapter.ArrayWheelAdapter;
 import com.wx.wheelview.widget.WheelView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class BaZhi extends AppCompatActivity implements View.OnClickListener, WheelView.OnWheelItemSelectedListener {
+public class BaZhi extends AppCompatActivity implements View.OnClickListener, WheelView.OnWheelItemSelectedListener, PurchasesUpdatedListener {
 
     private WheelView wheelView1, wheelView2, wheelView3, wheelView4;
     private List<String> strings_ri, strings_shi, strings_yue, strings_nian;
-    private Button mbutton;
+    private Button mbutton,fangsheng,fengshui;
     private TextView say;
-
+    private BillingClient billingClient;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,9 +42,11 @@ public class BaZhi extends AppCompatActivity implements View.OnClickListener, Wh
         setSupportActionBar(toolbar);
 
         initData();
-
+        setupBilling();
 
     }
+
+
 
     private void initData() {
         strings_nian = Arrays.asList(
@@ -98,8 +112,34 @@ public class BaZhi extends AppCompatActivity implements View.OnClickListener, Wh
 
         say = findViewById(R.id.say);
 
+        fangsheng=findViewById(R.id.fangsheng);
+        fengshui=findViewById(R.id.fengshui);
+        fangsheng.setOnClickListener(this);
+        fengshui.setOnClickListener(this);
+
     }
 
+    private void setupBilling() {
+        billingClient = BillingClient.newBuilder(BaZhi.this).setListener(this).build();
+        billingClient.startConnection(new BillingClientStateListener() {
+            @Override
+            public void onBillingSetupFinished(BillingResult billingResult) {
+
+                if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                    // The BillingClient is ready. You can query purchases here.
+                    Toast.makeText(BaZhi.this,"BillingResult"+billingResult.getResponseCode(),Toast.LENGTH_LONG).show();
+
+                }
+            }
+            @Override
+            public void onBillingServiceDisconnected() {
+                // Try to restart the connection on the next request to
+                // Google Play by calling the startConnection() method.
+
+                Toast.makeText(BaZhi.this,"onBillingServiceDisconnected",Toast.LENGTH_LONG).show();
+            }
+        });
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -117,6 +157,38 @@ public class BaZhi extends AppCompatActivity implements View.OnClickListener, Wh
                         +"\n\n"+ BaZhiSay4.Say(wheelView1.getCurrentPosition())
                         +"\n\n"+ BaZhiSay5.Say(ri,wheelView2.getCurrentPosition())
                 );
+                break;
+
+            case R.id.fengshui:
+
+                break;
+            case R.id.fangsheng:
+            if (billingClient.isReady()) {
+                List<String> skuList = new ArrayList<>();
+                skuList.add("fs_01");
+                skuList.add("fs_02");
+                skuList.add("fs_03");
+                skuList.add("fs_100");
+                SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
+                params.setSkusList(skuList).setType(BillingClient.SkuType.INAPP);
+                billingClient.querySkuDetailsAsync(params.build(),
+                        new SkuDetailsResponseListener() {
+                            @Override
+                            public void onSkuDetailsResponse(BillingResult result,
+                                                             List<SkuDetails> skuDetailsList) {
+                                // Process the result.
+                                if (result.getResponseCode() == BillingClient.BillingResponseCode.OK && skuDetailsList != null) {
+
+                                    BillingFlowParams billingFlowParams=BillingFlowParams.newBuilder().setSkuDetails(skuDetailsList.get(0)).build();
+                                    billingClient.launchBillingFlow(BaZhi.this,billingFlowParams);
+                                 }
+                                Toast.makeText(BaZhi.this, "Ready:"+skuDetailsList.toString(), Toast.LENGTH_LONG).show();
+                            }
+                        });
+            } else {
+            Toast.makeText(BaZhi.this, "xxxNO Ready", Toast.LENGTH_LONG).show();
+        }
+
                 break;
         }
     }
@@ -171,6 +243,11 @@ public class BaZhi extends AppCompatActivity implements View.OnClickListener, Wh
         }
         ;
 
+
+    }
+
+    @Override
+    public void onPurchasesUpdated(BillingResult billingResult, @Nullable List<Purchase> purchases) {
 
     }
 }

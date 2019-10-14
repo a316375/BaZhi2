@@ -105,6 +105,25 @@
             android:layout_marginBottom="10dp"
             android:text="@string/ceshuan"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+        <Button
+            android:id="@+id/fangsheng"
+            android:layout_toRightOf="@id/button"
+            android:layout_centerInParent="true"
+            style="@android:style/Widget.Button"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="放生" />
+        <Button
+            android:id="@+id/fengshui"
+            android:layout_toLeftOf="@id/button"
+            android:layout_centerInParent="true"
+            style="@android:style/Widget.Button"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="风水" />
     </RelativeLayout>
 
     <ScrollView

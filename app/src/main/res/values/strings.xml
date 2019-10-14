@@ -3,5 +3,12 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_ba_zhi">八字算命</string>
     <string name="ceshuan">测算</string>
-    <string name="show">本人征婚，男，1991年，微信：ladonnes \n Email：316375076@qq.com \n 参考翻阅大量的古籍，算命断语大多都是多苦多难，不必在意</string>
+    <string name="show">本人征婚，男，1991年，
+        \n微信：ladonnes \n Email：316375076@qq.com
+        \n 参考翻阅大量的古籍，传统的算命断语大多都是多苦多难。
+        \n古人云：一命二运三风水，四积阴德五读书。\n命局不如运局，运局不如风水局，
+        \n积德放生，考取学历，是古今改命的方法。
+        \n提示：上下滑动页面可查看所有算法。
+        \n\n\n\n\n-------------点击放生，离苦得乐。-------------
+    </string>
 </resources>
