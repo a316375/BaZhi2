@@ -120,7 +120,7 @@ public class BaZhi extends AppCompatActivity implements View.OnClickListener, Wh
     }
 
     private void setupBilling() {
-        billingClient = BillingClient.newBuilder(BaZhi.this).setListener(this).build();
+        billingClient = BillingClient.newBuilder(BaZhi.this).enablePendingPurchases().setListener(this).build();
         billingClient.startConnection(new BillingClientStateListener() {
             @Override
             public void onBillingSetupFinished(BillingResult billingResult) {
@@ -248,6 +248,31 @@ public class BaZhi extends AppCompatActivity implements View.OnClickListener, Wh
 
     @Override
     public void onPurchasesUpdated(BillingResult billingResult, @Nullable List<Purchase> purchases) {
-
+        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK
+                && purchases != null) {
+            for (Purchase purchase : purchases) {
+                 handlePurchase(purchase);
+            }
+        } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.USER_CANCELED) {
+            // Handle an error caused by a user cancelling the purchase flow.
+        } else {
+            // Handle any other error codes.
+        }
+    }
+    void handlePurchase(Purchase purchase) {
+        if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
+            // Acknowledge purchase and grant the item to the user  //確認購買並將商品授予用戶
+        } else if (purchase.getPurchaseState() == Purchase.PurchaseState.PENDING) {
+            // Here you can confirm to the user that they've started the pending
+            // purchase, and to complete it, they should follow instructions that
+            // are given to them. You can also choose to remind the user in the
+            // future to complete the purchase if you detect that it is still
+            // pending.
+            //在這裡，您可以向用戶確認他們已經開始掛起
+            //購買並完成購買，他們應該遵循以下說明
+            //給他們。您也可以選擇在
+            //如果您發現購買仍在進行中，將來可以完成購買
+            //待定。
+        }
     }
 }
