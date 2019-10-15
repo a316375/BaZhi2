@@ -133,7 +133,7 @@ public class BaZhi extends AppCompatActivity implements View.OnClickListener, Wh
 
                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                     // The BillingClient is ready. You can query purchases here.
-                    Toast.makeText(BaZhi.this,"BillingResult"+billingResult.getResponseCode(),Toast.LENGTH_LONG).show();
+                   // Toast.makeText(BaZhi.this,"BillingResult"+billingResult.getResponseCode(),Toast.LENGTH_LONG).show();
 
                 }
             }
@@ -142,7 +142,7 @@ public class BaZhi extends AppCompatActivity implements View.OnClickListener, Wh
                 // Try to restart the connection on the next request to
                 // Google Play by calling the startConnection() method.
 
-                Toast.makeText(BaZhi.this,"onBillingServiceDisconnected",Toast.LENGTH_LONG).show();
+                Toast.makeText(BaZhi.this,"无法开启支付",Toast.LENGTH_LONG).show();
             }
         });
     }
