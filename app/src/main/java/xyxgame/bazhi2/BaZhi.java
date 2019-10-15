@@ -200,12 +200,12 @@ public class BaZhi extends AppCompatActivity implements View.OnClickListener, Wh
 
                                 BillingFlowParams billingFlowParams=BillingFlowParams.newBuilder().setSkuDetails(skuDetailsList.get(point)).build();
                                 billingClient.launchBillingFlow(BaZhi.this,billingFlowParams);
-
+                                //Toast.makeText(BaZhi.this, "Ready:"+skuDetailsList.toString(), Toast.LENGTH_LONG).show();
+                                say.setText(skuDetailsList.get(point).getDescription().toString()+"\n\n捐贈前默念多次：\n\n某某某委托此應用為我做放生功德，南無阿彌陀佛。\n\n我們在總金額達到USD1000時進行一次YouTube放生直播");
+                                Log.v("SKU",skuDetailsList.toString());
 
                              }
-                            //Toast.makeText(BaZhi.this, "Ready:"+skuDetailsList.toString(), Toast.LENGTH_LONG).show();
-                            say.setText(skuDetailsList.get(point).getDescription().toString()+"\n\n捐贈前默念多次：\n\n某某某委托此應用為我做放生功德，南無阿彌陀佛。\n\n我們在總金額達到USD1000時進行一次YouTube放生直播");
-                            Log.v("SKU",skuDetailsList.toString());
+
                         }
                     });
         } else {
