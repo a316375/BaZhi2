@@ -6,6 +6,8 @@ import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClientStateListener;
 import com.android.billingclient.api.BillingFlowParams;
 import com.android.billingclient.api.BillingResult;
+import com.android.billingclient.api.ConsumeParams;
+import com.android.billingclient.api.ConsumeResponseListener;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.android.billingclient.api.SkuDetails;
@@ -18,6 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -31,9 +34,10 @@ public class BaZhi extends AppCompatActivity implements View.OnClickListener, Wh
 
     private WheelView wheelView1, wheelView2, wheelView3, wheelView4;
     private List<String> strings_ri, strings_shi, strings_yue, strings_nian;
-    private Button mbutton,fangsheng,fengshui;
+    private Button mbutton,fangsheng1,fangsheng2,fangsheng3;
     private TextView say;
     private BillingClient billingClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,15 +116,17 @@ public class BaZhi extends AppCompatActivity implements View.OnClickListener, Wh
 
         say = findViewById(R.id.say);
 
-        fangsheng=findViewById(R.id.fangsheng);
-        fengshui=findViewById(R.id.fengshui);
-        fangsheng.setOnClickListener(this);
-        fengshui.setOnClickListener(this);
+        fangsheng1=findViewById(R.id.fangsheng1);
+        fangsheng2=findViewById(R.id.fangsheng2);
+        fangsheng3=findViewById(R.id.fangsheng3);
+        fangsheng1.setOnClickListener(this);
+        fangsheng2.setOnClickListener(this);
+        fangsheng3.setOnClickListener(this);
 
     }
 
     private void setupBilling() {
-        billingClient = BillingClient.newBuilder(BaZhi.this).enablePendingPurchases().setListener(this).build();
+        billingClient = BillingClient.newBuilder(BaZhi.this).enablePendingPurchases().setListener(this).build();//检查是否可以正常连接支付
         billingClient.startConnection(new BillingClientStateListener() {
             @Override
             public void onBillingSetupFinished(BillingResult billingResult) {
@@ -159,38 +165,52 @@ public class BaZhi extends AppCompatActivity implements View.OnClickListener, Wh
                 );
                 break;
 
-            case R.id.fengshui:
+
+                case R.id.fangsheng1:
+                fangsheng_play(0);
+                break;
+                 case R.id.fangsheng2:
+                fangsheng_play(1);
+                break;
+               case R.id.fangsheng3:
+                 fangsheng_play(2);
 
                 break;
-            case R.id.fangsheng:
-            if (billingClient.isReady()) {
-                List<String> skuList = new ArrayList<>();
-                skuList.add("fs_01");
-                skuList.add("fs_02");
-                skuList.add("fs_03");
-                skuList.add("fs_100");
-                SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
-                params.setSkusList(skuList).setType(BillingClient.SkuType.INAPP);
-                billingClient.querySkuDetailsAsync(params.build(),
-                        new SkuDetailsResponseListener() {
-                            @Override
-                            public void onSkuDetailsResponse(BillingResult result,
-                                                             List<SkuDetails> skuDetailsList) {
-                                // Process the result.
-                                if (result.getResponseCode() == BillingClient.BillingResponseCode.OK && skuDetailsList != null) {
-
-                                    BillingFlowParams billingFlowParams=BillingFlowParams.newBuilder().setSkuDetails(skuDetailsList.get(0)).build();
-                                    billingClient.launchBillingFlow(BaZhi.this,billingFlowParams);
-                                 }
-                                Toast.makeText(BaZhi.this, "Ready:"+skuDetailsList.toString(), Toast.LENGTH_LONG).show();
-                            }
-                        });
-            } else {
-            Toast.makeText(BaZhi.this, "xxxNO Ready", Toast.LENGTH_LONG).show();
+            default:;
         }
 
-                break;
-        }
+    }
+
+    private void fangsheng_play(final int point) {
+        if (billingClient.isReady()) {//发起支付
+            List<String> skuList = new ArrayList<>();
+            skuList.add("fs_01");
+            skuList.add("fs_02");
+            skuList.add("fs_03");
+            skuList.add("fs_100");
+            SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
+            params.setSkusList(skuList).setType(BillingClient.SkuType.INAPP);
+            billingClient.querySkuDetailsAsync(params.build(),
+                    new SkuDetailsResponseListener() {
+                        @Override
+                        public void onSkuDetailsResponse(BillingResult result,
+                                                         List<SkuDetails> skuDetailsList) {
+                            // Process the result.
+                            if (result.getResponseCode() == BillingClient.BillingResponseCode.OK && skuDetailsList != null) {
+
+                                BillingFlowParams billingFlowParams=BillingFlowParams.newBuilder().setSkuDetails(skuDetailsList.get(point)).build();
+                                billingClient.launchBillingFlow(BaZhi.this,billingFlowParams);
+
+
+                             }
+                            //Toast.makeText(BaZhi.this, "Ready:"+skuDetailsList.toString(), Toast.LENGTH_LONG).show();
+                            say.setText(skuDetailsList.get(point).getDescription().toString()+"\n\n捐贈前默念多次：\n\n某某某委托此應用為我做放生功德，南無阿彌陀佛。\n\n我們在總金額達到USD1000時進行一次YouTube放生直播");
+                            Log.v("SKU",skuDetailsList.toString());
+                        }
+                    });
+        } else {
+        Toast.makeText(BaZhi.this, "xxxNO Ready", Toast.LENGTH_LONG).show();
+    }
     }
 
     @Override
@@ -247,7 +267,8 @@ public class BaZhi extends AppCompatActivity implements View.OnClickListener, Wh
     }
 
     @Override
-    public void onPurchasesUpdated(BillingResult billingResult, @Nullable List<Purchase> purchases) {
+    public void onPurchasesUpdated(BillingResult billingResult, @Nullable List<Purchase> purchases) {//支付点击确认后获取的回调结果，获取支付结果
+//        say.setText(""+billingResult.getResponseCode());
         if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK
                 && purchases != null) {
             for (Purchase purchase : purchases) {
@@ -257,12 +278,35 @@ public class BaZhi extends AppCompatActivity implements View.OnClickListener, Wh
             // Handle an error caused by a user cancelling the purchase flow.
         } else {
             // Handle any other error codes.
+
         }
     }
-    void handlePurchase(Purchase purchase) {
+    void handlePurchase(Purchase purchase) {//成功付款
+
         if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
             // Acknowledge purchase and grant the item to the user  //確認購買並將商品授予用戶
-        } else if (purchase.getPurchaseState() == Purchase.PurchaseState.PENDING) {
+            //消耗用品
+            ConsumeParams consumeParams = ConsumeParams.newBuilder()
+                    .setPurchaseToken(purchase.getPurchaseToken())
+                    .build();
+            billingClient.consumeAsync(consumeParams,new ConsumeResponseListener() {
+                @Override
+                public void onConsumeResponse(BillingResult billingResult, String outToken) {
+                    if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                        // Handle the success of the consume operation.
+                        // For example, increase the number of coins inside the user's basket.
+                       // Toast.makeText(BaZhi.this,"消耗成功",Toast.LENGTH_LONG).show();
+                    }
+                }});
+        }
+
+
+
+
+
+
+
+         if (purchase.getPurchaseState() == Purchase.PurchaseState.PENDING) {
             // Here you can confirm to the user that they've started the pending
             // purchase, and to complete it, they should follow instructions that
             // are given to them. You can also choose to remind the user in the
