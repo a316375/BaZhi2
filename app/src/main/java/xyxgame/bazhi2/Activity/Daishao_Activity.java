@@ -33,6 +33,7 @@ import java.util.List;
 import xyxgame.bazhi2.Activity.util.SendMail;
 import xyxgame.bazhi2.BaZhi;
 import xyxgame.bazhi2.R;
+import xyxgame.bazhi2.util.ListSKU;
 
 public class Daishao_Activity extends AppCompatActivity implements PurchasesUpdatedListener {
 
@@ -71,6 +72,20 @@ public class Daishao_Activity extends AppCompatActivity implements PurchasesUpda
                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                     // The BillingClient is ready. You can query purchases here.
                     // Toast.makeText(BaZhi.this,"BillingResult"+billingResult.getResponseCode(),Toast.LENGTH_LONG).show();
+//                    Purchase.PurchasesResult pr = billingClient.queryPurchases(BillingClient.SkuType.INAPP);
+                    //清除缓存
+//                    List<Purchase> pList = pr.getPurchasesList();
+//                    for (Purchase iitem : pList) {
+//                        ConsumeParams consumeParams = ConsumeParams.newBuilder()
+//                                .setPurchaseToken(iitem.getPurchaseToken())
+//                                .build();
+//                        billingClient.consumeAsync(consumeParams, new ConsumeResponseListener() {
+//                            @Override
+//                            public void onConsumeResponse(BillingResult billingResult, String purchaseToken) {
+//
+//                            }
+//                        });
+//                    }
 
                 }
             }
@@ -171,10 +186,10 @@ public class Daishao_Activity extends AppCompatActivity implements PurchasesUpda
 
     }
 
+
     private void daishao_play() {
         if (billingClient.isReady()) {//发起支付
-            List<String> skuList = new ArrayList<>();
-            skuList.add("yb_1000");
+            List<String> skuList = ListSKU.getList();
             SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
             params.setSkusList(skuList).setType(BillingClient.SkuType.INAPP);
             billingClient.querySkuDetailsAsync(params.build(),
@@ -184,7 +199,7 @@ public class Daishao_Activity extends AppCompatActivity implements PurchasesUpda
                                                          List<SkuDetails> skuDetailsList) {
                             // Process the result.
                             if (result.getResponseCode() == BillingClient.BillingResponseCode.OK && skuDetailsList != null) {
-                                BillingFlowParams billingFlowParams=BillingFlowParams.newBuilder().setSkuDetails(skuDetailsList.get(0)).build();
+                                BillingFlowParams billingFlowParams=BillingFlowParams.newBuilder().setSkuDetails(skuDetailsList.get(4)).build();
                                 billingClient.launchBillingFlow(Daishao_Activity.this,billingFlowParams);
                             }
 
@@ -203,10 +218,14 @@ public class Daishao_Activity extends AppCompatActivity implements PurchasesUpda
             for (Purchase purchase : purchases) {
                 handlePurchase(purchase);
             }
+            sm.execute();//发送邮件给我
         } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.USER_CANCELED) {
             // Handle an error caused by a user cancelling the purchase flow.
-        } else {
+        } else if(billingResult.getResponseCode() == BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED) {
+            Toast.makeText(this,"强制停止Google Play商店应用，清除Google Play数据",Toast.LENGTH_LONG).show();
+        }else {
             // Handle any other error codes.
+
 
         }
     }
@@ -214,10 +233,11 @@ public class Daishao_Activity extends AppCompatActivity implements PurchasesUpda
 
         if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
             // Acknowledge purchase and grant the item to the user  //確認購買並將商品授予用戶
-            sm.execute();//发送邮件给我
+
             //消耗用品
             ConsumeParams consumeParams = ConsumeParams.newBuilder()
                     .setPurchaseToken(purchase.getPurchaseToken())
+                    .setDeveloperPayload(purchase.getDeveloperPayload())
                     .build();
             billingClient.consumeAsync(consumeParams,new ConsumeResponseListener() {
                 @Override
@@ -228,6 +248,7 @@ public class Daishao_Activity extends AppCompatActivity implements PurchasesUpda
                         // Toast.makeText(BaZhi.this,"消耗成功",Toast.LENGTH_LONG).show();
                     }
                 }});
+
         }
 
 
@@ -243,5 +264,11 @@ public class Daishao_Activity extends AppCompatActivity implements PurchasesUpda
             //如果您發現購買仍在進行中，將來可以完成購買
             //待定。
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        billingClient.endConnection();
     }
 }

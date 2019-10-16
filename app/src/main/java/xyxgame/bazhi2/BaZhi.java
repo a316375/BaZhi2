@@ -30,6 +30,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import xyxgame.bazhi2.util.ListSKU;
+
 public class BaZhi extends AppCompatActivity implements View.OnClickListener, WheelView.OnWheelItemSelectedListener, PurchasesUpdatedListener {
 
     private WheelView wheelView1, wheelView2, wheelView3, wheelView4;
@@ -134,7 +136,7 @@ public class BaZhi extends AppCompatActivity implements View.OnClickListener, Wh
                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                     // The BillingClient is ready. You can query purchases here.
                    // Toast.makeText(BaZhi.this,"BillingResult"+billingResult.getResponseCode(),Toast.LENGTH_LONG).show();
-
+                    querySkuDetail();
                 }
             }
             @Override
@@ -146,6 +148,41 @@ public class BaZhi extends AppCompatActivity implements View.OnClickListener, Wh
             }
         });
     }
+
+    private void querySkuDetail() {
+
+        final List<String> skuList = ListSKU.getList();
+        SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
+            params.setSkusList(skuList).setType(BillingClient.SkuType.INAPP);
+            billingClient.querySkuDetailsAsync(params.build(), new SkuDetailsResponseListener() {
+                @Override
+                public void onSkuDetailsResponse(BillingResult billingResult, List<SkuDetails> skuDetailsList) {
+                    if (billingResult.getResponseCode()==BillingClient.BillingResponseCode.OK&&skuDetailsList!=null){
+
+                        for (SkuDetails list:skuDetailsList){
+                            Log.e("TAG", "onSkuDetailsResponse: "+list );
+
+//                            ConsumeParams consumeParams = ConsumeParams.newBuilder()
+//                                    .setPurchaseToken("AEuhp4KZEuIGpgYa6iCCX6xHD49NWCd_yMlvtNliAYK3YOuQjpvl4jb3iftbtPQmmXo=")
+//                                    .build();
+//                            billingClient.consumeAsync(consumeParams,new ConsumeResponseListener() {
+//                                @Override
+//                                public void onConsumeResponse(BillingResult billingResult, String outToken) {
+//                                    if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+//                                        // Handle the success of the consume operation.
+//                                        // For example, increase the number of coins inside the user's basket.
+//                                        // Toast.makeText(BaZhi.this,"消耗成功",Toast.LENGTH_LONG).show();
+//                                    }
+//                                }});
+
+                        }
+                    }
+                }
+            });
+
+
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -183,11 +220,7 @@ public class BaZhi extends AppCompatActivity implements View.OnClickListener, Wh
 
     private void fangsheng_play(final int point) {
         if (billingClient.isReady()) {//发起支付
-            List<String> skuList = new ArrayList<>();
-            skuList.add("fs_01");
-            skuList.add("fs_02");
-            skuList.add("fs_03");
-            skuList.add("fs_100");
+            List<String> skuList = ListSKU.getList();
             SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
             params.setSkusList(skuList).setType(BillingClient.SkuType.INAPP);
             billingClient.querySkuDetailsAsync(params.build(),
@@ -276,7 +309,10 @@ public class BaZhi extends AppCompatActivity implements View.OnClickListener, Wh
             }
         } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.USER_CANCELED) {
             // Handle an error caused by a user cancelling the purchase flow.
-        } else {
+        }else if(billingResult.getResponseCode() == BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED) {
+            Toast.makeText(this,"强制停止Google Play商店应用，清除Google Play数据",Toast.LENGTH_LONG).show();
+        }
+        else {
             // Handle any other error codes.
 
         }
@@ -286,8 +322,10 @@ public class BaZhi extends AppCompatActivity implements View.OnClickListener, Wh
         if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
             // Acknowledge purchase and grant the item to the user  //確認購買並將商品授予用戶
             //消耗用品
+            Log.e("purchase", "purchase: "+purchase.getPurchaseToken() );
             ConsumeParams consumeParams = ConsumeParams.newBuilder()
                     .setPurchaseToken(purchase.getPurchaseToken())
+                    .setDeveloperPayload(purchase.getDeveloperPayload())
                     .build();
             billingClient.consumeAsync(consumeParams,new ConsumeResponseListener() {
                 @Override
@@ -299,11 +337,6 @@ public class BaZhi extends AppCompatActivity implements View.OnClickListener, Wh
                     }
                 }});
         }
-
-
-
-
-
 
 
          if (purchase.getPurchaseState() == Purchase.PurchaseState.PENDING) {
@@ -318,5 +351,12 @@ public class BaZhi extends AppCompatActivity implements View.OnClickListener, Wh
             //如果您發現購買仍在進行中，將來可以完成購買
             //待定。
         }
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        billingClient.endConnection();
     }
 }
