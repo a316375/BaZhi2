@@ -49,7 +49,7 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
     protected void onPreExecute() {
         super.onPreExecute();
         //Showing progress dialog while sending email
-        progressDialog = ProgressDialog.show(context,"Sending message","Please wait...",false,false);
+        progressDialog = ProgressDialog.show(context,"正在提交订单","请勿退出应用...",false,false);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
         super.onPostExecute(aVoid);
         //Dismissing the progress dialog
         progressDialog.dismiss();
-        textView.setText("付款成功，发货后会发一份图片到你邮箱，如三天内任未收到回复，则未发货，您需要手动发送信息到316375076@qq.com，核查后为你补发");
+        textView.setText("订单提交成功，发货后会发一份图片到你邮箱，如三天内任未收到回复，则未发货，您需要手动发送信息到316375076@qq.com，核查后为你补发");
         textView.setTextColor(Color.RED);
         //Showing a success message
        // Toast.makeText(context,"Message Sent",Toast.LENGTH_LONG).show();
@@ -81,7 +81,7 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
                 new javax.mail.Authenticator() {
                     //Authenticating the password
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(Config.EMAIL, Config.PASSWORD+"8176");
+                        return new PasswordAuthentication(Config.EMAIL, Config.PASSWORD.replace("Act*_","Happy"));
                     }
                 });
 

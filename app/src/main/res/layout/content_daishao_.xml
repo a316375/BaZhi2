@@ -29,6 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:id="@+id/e0"
                 android:hint="必填（*发货后，发送信息到该邮箱）"></EditText>
         </LinearLayout>
         <LinearLayout
@@ -47,6 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:id="@+id/e1"
                 android:hint="某某某"></EditText>
         </LinearLayout>
 
@@ -66,6 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:id="@+id/e2"
                 android:hint="例:88年子月初一子时(务必写农历)"></EditText>
         </LinearLayout>
 
@@ -85,6 +88,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:id="@+id/e3"
                 android:hint="某市某区某街某栋某房"></EditText>
         </LinearLayout>
 
@@ -104,6 +108,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:id="@+id/e4"
                 android:hint="某亲/某仙家...例:土地公"></EditText>
         </LinearLayout>
 
@@ -123,6 +128,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:id="@+id/e5"
                 android:hint="例：祈求身体健康，事业进步"></EditText>
         </LinearLayout>
 
@@ -148,7 +154,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="购买一次" />
+            android:text="购买" />
 
         <ImageView
         android:layout_width="400dp"
