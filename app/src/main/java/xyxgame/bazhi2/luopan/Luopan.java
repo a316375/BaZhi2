@@ -1,6 +1,9 @@
 package xyxgame.bazhi2.luopan;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.widget.ImageView;
@@ -27,9 +30,13 @@ public class Luopan extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         imageView = (ImageView) findViewById(R.id.imageView);
+        imageView.setImageBitmap(Config.getBitmap(getApplicationContext()));
         textView = (TextView) findViewById(R.id.text);
         compass = new Compass(this, imageView, textView);
         compass.registerSensor();
+
+
+
 
         mScaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
 

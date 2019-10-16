@@ -15,6 +15,7 @@ import android.view.MenuItem;
 
 import xyxgame.bazhi2.Activity.Daishao_Activity;
 import xyxgame.bazhi2.luopan.Luopan;
+import xyxgame.bazhi2.util.DataCleanManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,6 +43,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, Luopan.class));
+            }
+        });
+        findViewById(R.id.clear).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DataCleanManager.cleanInternalCache(getApplicationContext());
             }
         });
     }

@@ -121,9 +121,9 @@ public class Daishao_Activity extends AppCompatActivity implements PurchasesUpda
 
         saveString();
 
-        if (editText0s.length()<5||editText1s.length()<5||editText2s.length()<5||
-                editText3s.length()<5||editText4s.length()<2||editText5s.length()<5){
-            textView.setText("注意：信息填写错误");
+        if (editText0s.length()==0||editText1s.length()==0||editText2s.length()==0||
+                editText3s.length()==0||editText4s.length()==0||editText5s.length()==0){
+            textView.setText("注意：信息不能为空");
             textView.setTextColor(Color.RED);
 
         }else {
