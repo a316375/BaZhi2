@@ -29,7 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="必填（*）"></EditText>
+                android:hint="必填（*发货后，发送信息到该邮箱）"></EditText>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
