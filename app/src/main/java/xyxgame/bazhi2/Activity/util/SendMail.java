@@ -4,7 +4,9 @@ import javax.mail.Session;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.AsyncTask;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Properties;
@@ -32,14 +34,15 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
 
     //Progressdialog to show while sending email
     private ProgressDialog progressDialog;
-
+    private TextView textView;
     //Class Constructor
-    public SendMail(Context context, String email, String subject, String message){
+    public SendMail(Context context, String email, String subject, String message, TextView textView){
         //Initializing variables
         this.context = context;
         this.email = email;
         this.subject = subject;
         this.message = message;
+        this.textView=textView;
     }
 
     @Override
@@ -54,8 +57,10 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
         super.onPostExecute(aVoid);
         //Dismissing the progress dialog
         progressDialog.dismiss();
+        textView.setText("付款成功，发货后会发一份图片到你邮箱，如未收到回复，则未发货，您需要手动发送信息到316375076@qq.com，核查后为你补发");
+        textView.setTextColor(Color.RED);
         //Showing a success message
-        Toast.makeText(context,"Message Sent",Toast.LENGTH_LONG).show();
+       // Toast.makeText(context,"Message Sent",Toast.LENGTH_LONG).show();
     }
 
     @Override

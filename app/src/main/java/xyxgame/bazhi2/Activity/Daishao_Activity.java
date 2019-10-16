@@ -6,6 +6,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
+
 import xyxgame.bazhi2.Activity.util.SendMail;
 import xyxgame.bazhi2.R;
 
@@ -19,9 +21,6 @@ public class Daishao_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_daishao_);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
-
 
 
 
@@ -41,9 +40,10 @@ public class Daishao_Activity extends AppCompatActivity {
         String email = "316375076@qq.com";
         String subject = "AHCDE";
         String message = "ASWDEDEEDD";
+        TextView textView=findViewById(R.id.say);
 
         //Creating SendMail object
-        SendMail sm = new SendMail(this, email, subject, message);
+        SendMail sm = new SendMail(this, email, subject, message,textView);
 
         //Executing sendmail to send email
          sm.execute();
