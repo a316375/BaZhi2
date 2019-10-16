@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import xyxgame.bazhi2.Activity.Daishao_Activity;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -27,6 +29,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this,BaZhi.class));
+            }
+        });
+        findViewById(R.id.daishao).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, Daishao_Activity.class));
             }
         });
     }
