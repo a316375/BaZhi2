@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import xyxgame.bazhi2.Activity.Daishao_Activity;
+import xyxgame.bazhi2.luopan.Luopan;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,6 +36,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, Daishao_Activity.class));
+            }
+        });
+        findViewById(R.id.luopan).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, Luopan.class));
             }
         });
     }
