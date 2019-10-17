@@ -33,7 +33,7 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
     private String message;
 
     //Progressdialog to show while sending email
-    private ProgressDialog progressDialog;
+   // private ProgressDialog progressDialog;
     private TextView textView;
     //Class Constructor
     public SendMail(Context context, String email, String subject, String message, TextView textView){
@@ -49,14 +49,14 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
     protected void onPreExecute() {
         super.onPreExecute();
         //Showing progress dialog while sending email
-        progressDialog = ProgressDialog.show(context,"正在提交订单","请勿退出应用...",false,false);
+       // progressDialog = ProgressDialog.show(context,"正在提交订单","请勿退出应用...",false,false);
     }
 
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         //Dismissing the progress dialog
-        progressDialog.dismiss();
+      //  progressDialog.dismiss();
         textView.setText("订单提交成功，发货后会发一份图片到你邮箱，如三天内任未收到回复，则未发货，您需要手动发送信息到316375076@qq.com，核查后为你补发");
         textView.setTextColor(Color.RED);
         //Showing a success message

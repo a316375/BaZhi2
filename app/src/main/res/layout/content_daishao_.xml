@@ -143,7 +143,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:text="由本应用代为缘主祈福，默认代烧元宝1000个/一次，如需多个请多次购买。"
+                android:text="由本应用代为缘主代烧元宝，默认1000个/一次，如需多个请多次购买。\n注意：付款后请在此页等待数秒，出现红色字体则为下单成功。请勿立即退出。"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"></TextView>
 
         </LinearLayout>

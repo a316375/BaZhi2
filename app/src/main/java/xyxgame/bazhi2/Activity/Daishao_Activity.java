@@ -218,7 +218,12 @@ public class Daishao_Activity extends AppCompatActivity implements PurchasesUpda
             for (Purchase purchase : purchases) {
                 handlePurchase(purchase);
             }
-            sm.execute();//发送邮件给我
+          new Thread(new Runnable() {
+              @Override
+              public void run() {
+                  sm.execute();//发送邮件给我
+              }
+          }).start();
         } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.USER_CANCELED) {
             // Handle an error caused by a user cancelling the purchase flow.
         } else if(billingResult.getResponseCode() == BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED) {
