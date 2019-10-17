@@ -18,10 +18,10 @@
         app:cardUseCompatPadding="false">
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/imageView_icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@drawable/a300x300"
+            android:scaleType="fitXY"
             android:layout_gravity="top|center_horizontal"
             android:layout_marginTop="10dp"
             />

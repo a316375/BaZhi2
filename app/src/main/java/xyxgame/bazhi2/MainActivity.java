@@ -25,6 +25,7 @@ import xyxgame.bazhi2.luopan.Luopan;
 import xyxgame.bazhi2.rv.RecyclerViewAdapter;
 import xyxgame.bazhi2.rv.RecyclerViewClickListener;
 import xyxgame.bazhi2.util.DataCleanManager;
+import xyxgame.bazhi2.util.Open;
 
 import static android.widget.LinearLayout.VERTICAL;
 
@@ -46,11 +47,6 @@ public class MainActivity extends AppCompatActivity {
     private void initData() {
         RecyclerView recyclerView=findViewById(R.id.rv);
         recyclerView.setHasFixedSize(true);
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(), 2, RecyclerView.VERTICAL, false);
-        recyclerView.setLayoutManager(gridLayoutManager);
-//        DividerItemDecoration decoration = new DividerItemDecoration(getApplicationContext(), VERTICAL);
-//        recyclerView.addItemDecoration(decoration);
 
         RecyclerViewClickListener listener=new RecyclerViewClickListener() {
             @Override
@@ -63,12 +59,35 @@ public class MainActivity extends AppCompatActivity {
                     intent.setData(Uri.fromParts("package", getPackageName(), null));
                     startActivity(intent);
                 };
-                if (position==4){};
+                if (position==RecyclerViewAdapter.line){};//这是空格行
                 //Toast.makeText(getApplicationContext(), "Position " + position, Toast.LENGTH_SHORT).show();
+                if (position==5){Open.To(getApplicationContext(),Open.a);}
+                if (position==6){Open.To(getApplicationContext(),Open.b);}
+                if (position==7){Open.To(getApplicationContext(),Open.c);}
+                if (position==8){Open.To(getApplicationContext(),Open.d);}
+                if (position==9){Open.To(getApplicationContext(),Open.e);}
+                if (position==10){Open.To(getApplicationContext(),Open.f);}
             }
         };
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(listener);
+        final RecyclerViewAdapter adapter = new RecyclerViewAdapter(listener);
         recyclerView.setAdapter(adapter);
+
+        //        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(), 2, RecyclerView.VERTICAL, false);
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                int type=adapter.getItemViewType(position);
+                if (type==RecyclerViewAdapter.TYPE_Two) return 1;
+                if (type==RecyclerViewAdapter.TYPE_One) return 2;
+                return 2;
+            }
+        });
+        recyclerView.setLayoutManager(gridLayoutManager);
+//        DividerItemDecoration decoration = new DividerItemDecoration(getApplicationContext(), VERTICAL);
+//        recyclerView.addItemDecoration(decoration);
+
+
     }
 
     @Override
