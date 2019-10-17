@@ -8,6 +8,7 @@ import android.os.Environment;
 
 /** * 本应用数据清除管理器 */
 public class DataCleanManager {
+
     /** * 清除本应用内部缓存(/data/data/com.xxx.xxx/cache) * * @param context */
     public static void cleanInternalCache(Context context) {
         deleteFilesByDirectory(context.getCacheDir());
