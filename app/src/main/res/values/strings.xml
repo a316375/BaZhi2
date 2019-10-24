@@ -17,4 +17,5 @@
     <string name="title_activity_daishao_">代烧元宝</string>
     <string name="title_activity_luopan">风水罗盘</string>
     <string name="main">如遇支付问题，请清除程序快取缓存</string>
+    <string name="title_activity_jie_meng">JieMeng</string>
 </resources>
