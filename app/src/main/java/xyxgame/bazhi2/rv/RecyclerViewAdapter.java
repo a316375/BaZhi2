@@ -20,8 +20,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private List<String> mDataset = new ArrayList<>();
     public static int TYPE_One = 1;
     public static int TYPE_Two = 2;
-    public static  int line=4;//切记分割线line，mDataset对应位置
-    int [] icons={R.drawable.sm,R.drawable.yb,R.drawable.compass,R.drawable.erase,
+    public static  int line=5;//切记分割线line，mDataset对应位置
+    int [] icons={R.drawable.sm,R.drawable.yb,R.drawable.compass,R.drawable.erase,R.drawable.sm,
             R.drawable.icon,
             R.drawable.dlwjicon,R.drawable.compass,R.drawable.slfs,R.drawable.yuepu,R.drawable.icon,R.drawable.java};
 
@@ -32,6 +32,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         mDataset.add("代烧元宝");
         mDataset.add("风水罗盘");
         mDataset.add("清除快取");
+        mDataset.add("周公解梦");
         mDataset.add("");//这个是line4的分割线，切记
         mDataset.add("地理五诀(秘本)");//com.xyx.dlwj  com.xyx.dlwj.pro
         mDataset.add("简易排盘");//xyxgame.luopan

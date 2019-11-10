@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".jiemen.JieMeng"
+            android:name=".jiemen.JieMengActivity"
             android:label="@string/title_activity_jie_meng"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity

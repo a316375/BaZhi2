@@ -112,6 +112,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="放生(小)"
+                    android:layout_weight="1"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
                 <Button
                     android:id="@+id/fangsheng2"
@@ -119,6 +120,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="放生(中)"
+                    android:layout_weight="1"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
 
@@ -129,6 +131,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="放生(大)"
+                    android:layout_weight="1"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
                 <Button
                     android:id="@+id/button"
@@ -136,6 +139,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/ceshuan"
+                    android:layout_weight="1"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
             </LinearLayout>

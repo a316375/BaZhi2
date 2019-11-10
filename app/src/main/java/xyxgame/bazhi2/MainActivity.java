@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import xyxgame.bazhi2.Activity.Daishao_Activity;
+import xyxgame.bazhi2.jiemen.JieMengActivity;
 import xyxgame.bazhi2.luopan.Luopan;
 import xyxgame.bazhi2.rv.RecyclerViewAdapter;
 import xyxgame.bazhi2.rv.RecyclerViewClickListener;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView recyclerView=findViewById(R.id.rv);
         recyclerView.setHasFixedSize(true);
 
+        /**以后每次更新都在此处添加，注意在RecyclerViewAdapter中需要同时添加图片跟数值**/
         RecyclerViewClickListener listener=new RecyclerViewClickListener() {
             @Override
             public void onClick(View view, int position) {
@@ -59,14 +61,15 @@ public class MainActivity extends AppCompatActivity {
                     intent.setData(Uri.fromParts("package", getPackageName(), null));
                     startActivity(intent);
                 };
+                if (position==4){startActivity(new Intent(MainActivity.this, JieMengActivity.class));};
                 if (position==RecyclerViewAdapter.line){};//这是空格行
                 //Toast.makeText(getApplicationContext(), "Position " + position, Toast.LENGTH_SHORT).show();
-                if (position==5){Open.To(getApplicationContext(),Open.a);}
-                if (position==6){Open.To(getApplicationContext(),Open.b);}
-                if (position==7){Open.To(getApplicationContext(),Open.c);}
-                if (position==8){Open.To(getApplicationContext(),Open.d);}
-                if (position==9){Open.To(getApplicationContext(),Open.e);}
-                if (position==10){Open.To(getApplicationContext(),Open.f);}
+                if (position==RecyclerViewAdapter.line+1){Open.To(getApplicationContext(),Open.a);}
+                if (position==RecyclerViewAdapter.line+2){Open.To(getApplicationContext(),Open.b);}
+                if (position==RecyclerViewAdapter.line+3){Open.To(getApplicationContext(),Open.c);}
+                if (position==RecyclerViewAdapter.line+4){Open.To(getApplicationContext(),Open.d);}
+                if (position==RecyclerViewAdapter.line+5){Open.To(getApplicationContext(),Open.e);}
+                if (position==RecyclerViewAdapter.line+6){Open.To(getApplicationContext(),Open.f);}
             }
         };
         final RecyclerViewAdapter adapter = new RecyclerViewAdapter(listener);
